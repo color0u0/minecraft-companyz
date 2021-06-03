@@ -40,7 +40,7 @@ dependencies {
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     processResources {
@@ -79,7 +79,7 @@ tasks {
     }
 
     create<Copy>("copyToServer") {
-        val plugins = File("/Users/yudonghun/MinecraftProjects/1.16.4/.server/plugins")
+        val plugins = File("/Users/namu/MinecraftProjects/1.16.5/plugins")
         named("makePluginJar").run {
             from(this)
             into(plugins)
