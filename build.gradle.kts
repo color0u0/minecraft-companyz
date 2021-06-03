@@ -22,7 +22,7 @@ dependencies {
 
     implementation("com.github.monun:tap:3.6.0")
     implementation("com.github.monun:kommand:1.0.0")
-    implementation("com.github.donghune:minecraft-namulibrary:1.0.0")
+    implementation("com.github.donghune:minecraft-namulibrary:1.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
     implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0")
@@ -79,7 +79,7 @@ tasks {
     }
 
     create<Copy>("copyToServer") {
-        val plugins = File("/Users/yudonghun/MinecraftProjects/1.16.4/plugins")
+        val plugins = File("/Users/yudonghun/MinecraftProjects/1.16.4/.server/plugins")
         named("makePluginJar").run {
             from(this)
             into(plugins)

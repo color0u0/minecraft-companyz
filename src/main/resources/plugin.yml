@@ -2,3 +2,6 @@ name: $pluginName
 main: $pluginMain
 api-version: '1.16'
 version: $version
+
+commands:
+  money:
