@@ -5,3 +5,5 @@ version: $version
 
 commands:
   money:
+  stock:
+  transportation:

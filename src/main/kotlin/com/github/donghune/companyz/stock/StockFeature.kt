@@ -3,10 +3,10 @@ package com.github.donghune.companyz.stock
 import com.github.donghune.companyz.plugin
 import com.github.donghune.companyz.stock.command.StockCommand
 import com.github.donghune.companyz.stock.listener.StockListener
-import com.github.donghune.companyz.stock.model.Stock
-import com.github.donghune.companyz.stock.model.StockRepository
+import com.github.donghune.companyz.stock.model.*
 import com.github.donghune.companyz.util.struct.Command
 import com.github.donghune.companyz.util.struct.Feature
+import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.event.Listener
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -28,5 +28,17 @@ class StockFeature : Feature() {
                 File("${plugin.dataFolder.absolutePath}/stock/stocks")
             )
         }
+        single {
+            PlayerStockRepository(
+                PlayerStock::class.java,
+                File("${plugin.dataFolder.absolutePath}/stock/players")
+            )
+        }
     }
+
+    override val serializableClazzs: List<Class<out ConfigurationSerializable>> = listOf(
+        HeldStock::class.java,
+        PlayerStock::class.java,
+        Stock::class.java
+    )
 }

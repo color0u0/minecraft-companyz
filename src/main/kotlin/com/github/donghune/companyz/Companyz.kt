@@ -2,9 +2,11 @@ package com.github.donghune.companyz
 
 import com.github.donghune.companyz.money.MoneyFeature
 import com.github.donghune.companyz.stock.StockFeature
+import com.github.donghune.companyz.transportation.TransportationFeature
 import com.github.donghune.companyz.util.extension.invoke
 import com.github.monun.kommand.kommand
 import com.github.shynixn.mccoroutine.SuspendingJavaPlugin
+import org.bukkit.configuration.serialization.ConfigurationSerialization
 import org.bukkit.plugin.java.JavaPlugin
 import org.koin.core.context.startKoin
 
@@ -14,7 +16,8 @@ class Companyz : SuspendingJavaPlugin() {
 
     private val features = listOf(
         MoneyFeature(),
-        StockFeature()
+        StockFeature(),
+        TransportationFeature()
     )
 
     override suspend fun onEnableAsync() {
@@ -26,6 +29,7 @@ class Companyz : SuspendingJavaPlugin() {
                     it.commands.forEach { command -> command.invoke(this@kommand) }
                     it.listeners.forEach { listener -> listener.invoke(this@Companyz) }
                     modules(it.modules)
+                    it.serializableClazzs.forEach { clazz -> ConfigurationSerialization.registerClass(clazz, clazz.simpleName) }
                 }
             }
         }

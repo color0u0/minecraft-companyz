@@ -7,6 +7,7 @@ import com.github.donghune.companyz.money.model.PlayerMoney
 import com.github.donghune.companyz.money.model.PlayerMoneyRepository
 import com.github.donghune.companyz.plugin
 import com.github.donghune.companyz.util.struct.Command
+import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.event.Listener
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -30,5 +31,9 @@ class MoneyFeature : Feature() {
             )
         }
     }
+
+    override val serializableClazzs: List<Class<out ConfigurationSerializable>> = listOf(
+        PlayerMoney::class.java
+    )
 
 }
