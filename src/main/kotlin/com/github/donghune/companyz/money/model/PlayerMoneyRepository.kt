@@ -5,15 +5,15 @@ import com.github.donghune.namulibrary.model.EntityRepository
 import java.io.File
 import java.util.*
 
-class PlayerMoneyRepository : EntityRepository<PlayerMoney>() {
-
-    override val dataType: Class<PlayerMoney> = PlayerMoney::class.java
-    override val file: File = File("${plugin.dataFolder.absolutePath}/money/players")
+class PlayerMoneyRepository(
+    override val dataType: Class<PlayerMoney>,
+    override val file: File
+) : EntityRepository<PlayerMoney>() {
 
     override fun getDefaultData(key: String): PlayerMoney {
         return PlayerMoney(
-                UUID.fromString(key),
-                DEFAULT_MONEY
+            UUID.fromString(key),
+            DEFAULT_MONEY
         )
     }
 
