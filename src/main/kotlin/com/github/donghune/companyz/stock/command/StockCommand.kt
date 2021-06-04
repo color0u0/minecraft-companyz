@@ -26,18 +26,19 @@ class StockCommand : Command() {
                 then("market") {
                     executes {
                         val player = it.sender as Player
-                        StockMarketInventory.open(player)
+                        StockMarketInventory().open(player)
                     }
                 }
                 then("held") {
                     executes {
                         val player = it.sender as Player
-                        HeldStockInventory(player)
+                        HeldStockInventory(player).open(player)
                     }
                     then("player" to player()) {
                         executes {
+                            val player = it.sender as Player
                             val target = it.parseArgument<Player>("player")
-                            HeldStockInventory(target)
+                            HeldStockInventory(target).open(player)
                         }
                     }
                 }

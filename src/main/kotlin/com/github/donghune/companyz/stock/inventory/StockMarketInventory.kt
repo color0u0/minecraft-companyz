@@ -20,7 +20,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 import org.koin.java.KoinJavaComponent.inject
 
-object StockMarketInventory : GUI(plugin, 9, "주식 거래장") {
+class StockMarketInventory : GUI(plugin, 9, "주식 거래장") {
 
     private val stockRepository: StockRepository by inject(StockRepository::class.java)
 
