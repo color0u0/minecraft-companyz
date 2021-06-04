@@ -7,12 +7,12 @@ import java.util.*
 @SerializableAs("PlayerStock")
 data class PlayerStock(
     val uuid: UUID,
-    val stocks: MutableMap<String, HeldStock>
+    val stocks: MutableMap<String, HeldStock>,
 ) : ConfigurationSerializable {
 
     override fun serialize(): Map<String, Any> {
         return mapOf(
-            "uuid" to uuid,
+            "uuid" to uuid.toString(),
             "stocks" to stocks,
         )
     }
@@ -21,7 +21,7 @@ data class PlayerStock(
         @JvmStatic
         fun deserialize(data: Map<String, Any>): PlayerStock {
             return PlayerStock(
-                data["uuid"] as UUID,
+                UUID.fromString(data["uuid"] as String),
                 data["stocks"] as MutableMap<String, HeldStock>,
             )
         }
