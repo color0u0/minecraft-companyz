@@ -34,7 +34,7 @@ class MoneyCommand : Command(), KoinComponent {
                                 return@executes
                             }
 
-                            player.sendInfoMessage("${player.name}님의 보유금액은 ${target.money.toMoneyFormat()} 입니다.")
+                            player.sendInfoMessage("${target.name}님의 보유금액은 ${target.money.toMoneyFormat()} 입니다.")
                         }
                     }
                     executes {
