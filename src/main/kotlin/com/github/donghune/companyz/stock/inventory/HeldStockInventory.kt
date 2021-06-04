@@ -27,13 +27,17 @@ class HeldStockInventory(private val player: Player) : GUI(plugin, 9, "보유 �
     }
 
     override suspend fun setContent() {
-        player.stock.stocks.values.forEachIndexed { index, heldStock ->
-            val stock = stockRepository.get(heldStock.name) ?: return@forEachIndexed
-
-            setItem(index, stock.toHeldItemStack(heldStock)) {
-                it.isCancelled = true
+        player.stock.stocks.values
+            .filter {
+                it.amount != 0
             }
-        }
+            .forEachIndexed { index, heldStock ->
+                val stock = stockRepository.get(heldStock.name) ?: return@forEachIndexed
+
+                setItem(index, stock.toHeldItemStack(heldStock)) {
+                    it.isCancelled = true
+                }
+            }
     }
 
     private fun Stock.toHeldItemStack(heldStock: HeldStock): ItemStack {
@@ -42,7 +46,7 @@ class HeldStockInventory(private val player: Player) : GUI(plugin, 9, "보유 �
             .setDisplay("&f$name")
             .setLore(
                 listOf(
-                    "&f매수가격 : &6${heldStock.buyPrice.toMoneyFormat()} &f딤화",
+                    "&f평균단가 : &6${heldStock.buyPrice.toMoneyFormat()} &f딤화",
                     "&f보유개수 : &6${heldStock.amount.toMoneyFormat()}&f주",
                     "&f",
                     "&f전일가격 : &6${openingPrice.toMoneyFormat()} &f딤화",
