@@ -52,6 +52,6 @@ class HeldStockInventory(private val player: Player) : GUI(plugin, 9, "보유 �
                 )
             )
             .build()
-            .addNBTTagCompound(this)
+            .addNBTTagCompound(this@toHeldItemStack)
     }
 }

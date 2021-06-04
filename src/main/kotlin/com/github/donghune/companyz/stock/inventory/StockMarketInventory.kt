@@ -69,6 +69,6 @@ object StockMarketInventory : GUI(plugin, 9, "주식 거래장") {
                 )
             )
             .build()
-            .addNBTTagCompound(this)
+            .addNBTTagCompound(this@toMarketItemStack)
     }
 }
