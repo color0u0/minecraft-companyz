@@ -5,11 +5,9 @@ import com.github.donghune.companyz.transportation.extension.calculatePrice
 import com.github.donghune.companyz.transportation.extension.use
 import com.github.donghune.companyz.transportation.model.TransitPoint
 import com.github.donghune.companyz.transportation.model.TransitPointRepository
-import com.github.donghune.companyz.transportation.model.TransitPointRepository.Companion.METER_BY_PRICE
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.donghune.namulibrary.inventory.GUI
-import com.github.donghune.namulibrary.nms.addNBTTagCompound
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -34,7 +32,8 @@ class UsingTransportationInventory : GUI(plugin, 27, "이동하실 곳을 선택
     override suspend fun setContent() {
         repository.getList()
             .forEachIndexed { index, transitPoint ->
-                setItem(index, transitPoint.toItemStack(transitPoint.calculatePrice(player.location))) {
+                val price = transitPoint.calculatePrice(player.location)
+                setItem(index, transitPoint.toUseItemStack(price)) {
                     val player: Player = it.whoClicked as Player
                     it.isCancelled = true
                     transitPoint.use(player)
@@ -42,7 +41,7 @@ class UsingTransportationInventory : GUI(plugin, 27, "이동하실 곳을 선택
             }
     }
 
-    private fun TransitPoint.toItemStack(price: Int): ItemStack {
+    private fun TransitPoint.toUseItemStack(price: Int): ItemStack {
         return ItemBuilder()
             .setMaterial(Material.BOOK)
             .setDisplay(display)
@@ -53,7 +52,6 @@ class UsingTransportationInventory : GUI(plugin, 27, "이동하실 곳을 선택
                 add("&f현재 위치와 이동하려는 위치의 거리 비례 금액으로 계산됩니다!")
             })
             .build()
-            .addNBTTagCompound(this@toItemStack)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.github.donghune.companyz.transportation.command
 
+import com.github.donghune.companyz.transportation.inventory.UsingTransportationInventory
 import com.github.donghune.companyz.transportation.model.TransitPoint
 import com.github.donghune.companyz.transportation.model.TransitPointRepository
 import com.github.donghune.companyz.util.struct.Command
@@ -17,6 +18,12 @@ class TransportationCommand : Command() {
     override val command: KommandDispatcherBuilder.() -> Unit
         get() = {
             register("transportation") {
+                then("use") {
+                    executes {
+                        val player = it.sender as Player
+                        UsingTransportationInventory().open(player)
+                    }
+                }
                 then("point") {
                     then("add") {
                         then("name" to string()) {

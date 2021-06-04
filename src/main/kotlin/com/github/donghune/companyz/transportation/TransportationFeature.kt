@@ -6,6 +6,7 @@ import com.github.donghune.companyz.transportation.model.TransitPoint
 import com.github.donghune.companyz.transportation.model.TransitPointRepository
 import com.github.donghune.companyz.util.struct.Command
 import com.github.donghune.companyz.util.struct.Feature
+import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.event.Listener
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -29,5 +30,9 @@ class TransportationFeature : Feature() {
             )
         }
     }
+
+    override val serializableClazzs: List<Class<out ConfigurationSerializable>> = listOf(
+        TransitPoint::class.java
+    )
 
 }

@@ -13,6 +13,6 @@ class TransitPointRepository(
     }
 
     companion object {
-        const val METER_BY_PRICE = 10
+        const val METER_BY_PRICE = 10000
     }
 }
