@@ -11,6 +11,7 @@ import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.namulibrary.nms.addNBTTagCompound
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
@@ -24,6 +25,10 @@ class HeldStockInventory(private val player: Player) : GUI(plugin, 9, "보유 �
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
+    }
+
+    override suspend fun onPlayerInventoryClick(event: InventoryClickEvent) {
+
     }
 
     override suspend fun setContent() {

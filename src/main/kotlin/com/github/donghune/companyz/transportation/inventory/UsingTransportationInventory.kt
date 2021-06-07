@@ -10,6 +10,7 @@ import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.donghune.namulibrary.inventory.GUI
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
@@ -27,6 +28,10 @@ class UsingTransportationInventory : GUI(plugin, 27, "이동하실 곳을 선택
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
         player = event.player as Player
+    }
+
+    override suspend fun onPlayerInventoryClick(event: InventoryClickEvent) {
+
     }
 
     override suspend fun setContent() {

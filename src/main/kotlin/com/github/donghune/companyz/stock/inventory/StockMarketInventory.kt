@@ -15,6 +15,7 @@ import com.github.donghune.namulibrary.nms.getNBTTagCompound
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
@@ -28,6 +29,10 @@ class StockMarketInventory : GUI(plugin, 9, "주식 거래장") {
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
+    }
+
+    override suspend fun onPlayerInventoryClick(event: InventoryClickEvent) {
+
     }
 
     override suspend fun setContent() {
