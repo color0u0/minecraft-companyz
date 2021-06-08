@@ -60,7 +60,7 @@ class StockCommand : Command() {
                         }
                     }
                     then("delete") {
-                        then("stock" to stock()) {
+                        then("stock" to StockArgument) {
                             executes {
                                 val player = it.sender as Player
                                 val stock = it.parseArgument<Stock>("stock")

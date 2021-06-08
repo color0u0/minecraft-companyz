@@ -23,5 +23,3 @@ object ShopArgument : KommandArgument<Shop> {
         return shopRepository.getList().suggest(target) { it.name }
     }
 }
-
-fun KommandBuilder.shop() = ShopArgument

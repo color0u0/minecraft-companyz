@@ -26,7 +26,7 @@ class ShopCommand : Command() {
         get() = {
             register("shop") {
                 then("open") {
-                    then("shop" to shop()) {
+                    then("shop" to ShopArgument) {
                         executes {
                             val player = it.sender as Player
                             val shop = it.parseArgument<Shop>("shop")
@@ -52,7 +52,7 @@ class ShopCommand : Command() {
                     }
                 }
                 then("delete") {
-                    then("shop" to shop()) {
+                    then("shop" to ShopArgument) {
                         executes {
                             val player = it.sender as Player
                             val shop = it.parseArgument<Shop>("shop")
@@ -63,7 +63,7 @@ class ShopCommand : Command() {
                     }
                 }
                 then("items") {
-                    then("shop" to shop()) {
+                    then("shop" to ShopArgument) {
                         then("add") {
                             then("buyPrice" to integer()) {
                                 then("sellPrice" to integer()) {

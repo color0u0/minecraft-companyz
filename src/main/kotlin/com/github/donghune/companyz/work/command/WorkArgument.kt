@@ -13,7 +13,7 @@ object WorkArgument : KommandArgument<Work> {
     private val workRepository by inject<WorkRepository>(WorkRepository::class.java)
 
     override val parseFailMessage: String
-        get() = "${KommandArgument.TOKEN} <-- 해당 상점을 찾지 못했습니다."
+        get() = "${KommandArgument.TOKEN} <-- 해당 업무를 찾지 못했습니다."
 
     override fun parse(context: KommandContext, param: String): Work? {
         return workRepository.get(param)
@@ -23,5 +23,3 @@ object WorkArgument : KommandArgument<Work> {
         return workRepository.getList().suggest(target) { it.name }
     }
 }
-
-fun KommandBuilder.work() = WorkArgument

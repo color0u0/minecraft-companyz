@@ -23,5 +23,3 @@ object TransitPointArgument : KommandArgument<TransitPoint> {
         return transitPointRepository.getList().suggest(target) { it.name }
     }
 }
-
-fun KommandBuilder.transitPoint() = TransitPointArgument

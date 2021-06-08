@@ -23,5 +23,3 @@ object StockArgument : KommandArgument<Stock> {
         return stockRepository.getList().suggest(target) { it.name }
     }
 }
-
-fun KommandBuilder.stock() = StockArgument

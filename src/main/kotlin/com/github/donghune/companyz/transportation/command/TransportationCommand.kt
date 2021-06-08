@@ -43,7 +43,7 @@ class TransportationCommand : Command() {
                         }
                     }
                     then("remove") {
-                        then("point" to transitPoint()) {
+                        then("point" to TransitPointArgument) {
                             executes {
                                 val player = it.sender as Player
                                 val transitPoint = it.parseArgument<TransitPoint>("point")
@@ -55,7 +55,7 @@ class TransportationCommand : Command() {
                     }
                     then("modify") {
                         then("display-name") {
-                            then("point" to transitPoint()) {
+                            then("point" to TransitPointArgument) {
                                 executes {
                                     val player = it.sender as Player
                                     val transitPoint = it.parseArgument<TransitPoint>("point")
@@ -69,7 +69,7 @@ class TransportationCommand : Command() {
                         }
                         then("lore") {
                             then("add") {
-                                then("point" to transitPoint()) {
+                                then("point" to TransitPointArgument) {
                                     then("message" to string()) {
                                         executes {
                                             val player = it.sender as Player
@@ -87,7 +87,7 @@ class TransportationCommand : Command() {
                                 }
                             }
                             then("remove") {
-                                then("point" to transitPoint()) {
+                                then("point" to TransitPointArgument) {
                                     then("index" to integer()) {
                                         executes {
                                             val player = it.sender as Player
@@ -105,7 +105,7 @@ class TransportationCommand : Command() {
                                 }
                             }
                             then("edit") {
-                                then("point" to transitPoint()) {
+                                then("point" to TransitPointArgument) {
                                     then("index" to integer()) {
                                         then("message" to string()) {
                                             executes {
@@ -127,7 +127,7 @@ class TransportationCommand : Command() {
                             }
                         }
                         then("location") {
-                            then("point" to transitPoint()) {
+                            then("point" to TransitPointArgument) {
                                 executes {
                                     val player = it.sender as Player
                                     val transitPoint = it.parseArgument<TransitPoint>("point")
