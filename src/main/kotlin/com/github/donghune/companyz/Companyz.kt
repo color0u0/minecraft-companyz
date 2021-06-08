@@ -5,6 +5,7 @@ import com.github.donghune.companyz.shop.ShopFeature
 import com.github.donghune.companyz.stock.StockFeature
 import com.github.donghune.companyz.transportation.TransportationFeature
 import com.github.donghune.companyz.util.extension.invoke
+import com.github.donghune.companyz.work.WorkFeature
 import com.github.monun.kommand.kommand
 import com.github.shynixn.mccoroutine.SuspendingJavaPlugin
 import org.bukkit.configuration.serialization.ConfigurationSerialization
@@ -19,7 +20,8 @@ class Companyz : SuspendingJavaPlugin() {
         MoneyFeature(),
         StockFeature(),
         TransportationFeature(),
-        ShopFeature()
+        ShopFeature(),
+        WorkFeature()
     )
 
     override suspend fun onEnableAsync() {
