@@ -17,8 +17,8 @@ data class Work(
             "name" to name,
             "display" to display,
             "description" to description,
-            "mission" to description,
-            "workType" to workType,
+            "mission" to mission,
+            "workType" to workType.toString(),
             "reward" to reward,
         )
     }
@@ -31,7 +31,7 @@ data class Work(
                 data["display"] as String,
                 data["description"] as String,
                 data["mission"] as WorkMission,
-                data["workType"] as WorkType,
+                WorkType.valueOf(data["workType"] as String),
                 data["reward"] as WorkReward,
             )
         }
