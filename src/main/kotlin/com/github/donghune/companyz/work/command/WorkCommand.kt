@@ -3,8 +3,8 @@ package com.github.donghune.companyz.work.command
 import com.github.donghune.companyz.util.struct.Command
 import com.github.donghune.companyz.work.extension.save
 import com.github.donghune.companyz.work.inventory.JobPostInventory
-import com.github.donghune.companyz.work.inventory.WorkMissionEditBook
 import com.github.donghune.companyz.work.inventory.WorkMissionEditInventory
+import com.github.donghune.companyz.work.model.PartTimeWorkRepository
 import com.github.donghune.companyz.work.model.Work
 import com.github.donghune.companyz.work.model.WorkRepository
 import com.github.donghune.companyz.work.model.WorkType
@@ -15,14 +15,32 @@ import com.github.monun.kommand.argument.enum
 import com.github.monun.kommand.argument.integer
 import com.github.monun.kommand.argument.string
 import org.bukkit.entity.Player
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class WorkCommand : Command() {
-    private val workRepository by KoinJavaComponent.inject<WorkRepository>(WorkRepository::class.java)
+    private val workRepository by inject<WorkRepository>(WorkRepository::class.java)
+    private val partTimeWorkRepository by inject<PartTimeWorkRepository>(PartTimeWorkRepository::class.java)
 
     override val command: KommandDispatcherBuilder.() -> Unit
         get() = {
             register("work") {
+                then("debug") {
+                    then("title") {
+                        executes {
+                            val player = it.sender as Player
+
+                            player.sendTitle("안녕", "화면에 출력되는 단어를 채팅창에 입력하세요 2.0s", 0, 60, 0)
+                        }
+                    }
+                    then("allocation") {
+                        executes {
+                            val player = it.sender as Player
+
+                            partTimeWorkRepository.allocations()
+                            player.sendInfoMessage("아르바이트를 갱신하였습니다.")
+                        }
+                    }
+                }
                 then("board") {
                     executes {
                         val player = it.sender as Player
@@ -41,11 +59,12 @@ class WorkCommand : Command() {
                             }
 
                             workRepository.createDefaultData(workKey)
+                            player.sendInfoMessage("해당 업무를 생성하였습니다.")
                         }
                     }
                 }
                 then("remove") {
-                    then("work" to work()) {
+                    then("work" to WorkArgument) {
                         executes {
                             val player = it.sender as Player
                             val work = it.parseArgument<Work>("work")
@@ -56,7 +75,7 @@ class WorkCommand : Command() {
                     }
                 }
                 then("modify") {
-                    then("work" to work()) {
+                    then("work" to WorkArgument) {
                         then("display") {
                             then("value" to string()) {
                                 executes {
@@ -64,7 +83,7 @@ class WorkCommand : Command() {
                                     val work = it.parseArgument<Work>("work")
                                     val value = it.parseArgument<String>("value")
 
-                                    work.display = value
+                                    work.display = value.replace("_", " ")
                                     work.save()
                                     player.sendInfoMessage("업무의 내용을 수정하였습니다.")
                                 }
@@ -77,7 +96,7 @@ class WorkCommand : Command() {
                                     val work = it.parseArgument<Work>("work")
                                     val value = it.parseArgument<String>("value")
 
-                                    work.description = value
+                                    work.description = value.replace("_", " ")
                                     work.save()
                                     player.sendInfoMessage("업무의 내용을 수정하였습니다.")
                                 }
@@ -91,7 +110,7 @@ class WorkCommand : Command() {
                                         val work = it.parseArgument<Work>("work")
                                         val value = it.parseArgument<String>("value")
 
-                                        work.mission.toWhom = value
+                                        work.mission.toWhom = value.replace("_", " ")
                                         work.save()
                                         player.sendInfoMessage("업무의 내용을 수정하였습니다.")
                                     }
@@ -106,11 +125,16 @@ class WorkCommand : Command() {
                                 }
                             }
                             then("textContent") {
-                                executes {
-                                    val player = it.sender as Player
-                                    val work = it.parseArgument<Work>("work")
+                                then("value" to string()) {
+                                    executes {
+                                        val player = it.sender as Player
+                                        val work = it.parseArgument<Work>("work")
+                                        val value = it.parseArgument<String>("value")
 
-                                    WorkMissionEditBook(work).open(player)
+                                        work.mission.textContent = value.replace("_", " ")
+                                        work.save()
+                                        player.sendInfoMessage("업무의 내용을 수정하였습니다.")
+                                    }
                                 }
                             }
                         }
