@@ -28,11 +28,11 @@ class WorkListener : Listener {
             return
         }
 
-        if (!player.inventory.hasItems(work.mission.itemStackList.toTypedArray())) {
+        if (!player.inventory.hasItems(work.mission.itemStacks.toTypedArray())) {
             return
         }
 
-        player.inventory.takeItems(work.mission.itemStackList.toTypedArray())
+        player.inventory.takeItems(work.mission.itemStacks.toTypedArray())
         partTimeJob.complete(player, 1.0)
     }
 

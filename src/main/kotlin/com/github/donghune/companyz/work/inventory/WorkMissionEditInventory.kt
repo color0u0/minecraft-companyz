@@ -18,8 +18,8 @@ class WorkMissionEditInventory(
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
         event.inventory.storageContents
             .toList()
-            .filter { it != null && it.type != Material.AIR }
-            .also { work.mission.itemStackList = it }
+            .filter { it.type != Material.AIR }
+            .also { work.mission.itemStacks = it }
             .also { work.save() }
         (event.player as Player).sendInfoMessage("업무의 내용을 수정하였습니다.")
     }
@@ -33,6 +33,6 @@ class WorkMissionEditInventory(
     }
 
     override suspend fun setContent() {
-        inventory.addItem(*work.mission.itemStackList.toTypedArray())
+        inventory.addItem(*work.mission.itemStacks.toTypedArray())
     }
 }

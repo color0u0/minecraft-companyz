@@ -7,14 +7,14 @@ import org.bukkit.inventory.ItemStack
 @SerializableAs("WorkMission")
 data class WorkMission(
     var toWhom: String,
-    var itemStackList: List<ItemStack>,
+    var itemStacks: List<ItemStack>,
     var textContent: String
 ) : ConfigurationSerializable {
     override fun serialize(): Map<String, Any> {
         return mapOf(
             "toWhom" to toWhom,
-            "itemStack" to itemStackList,
-            "content" to textContent,
+            "itemStacks" to itemStacks,
+            "textContent" to textContent,
         )
     }
 
@@ -23,8 +23,8 @@ data class WorkMission(
         fun deserialize(data: Map<String, Any>): WorkMission {
             return WorkMission(
                 data["toWhom"] as String,
-                data["itemStack"] as List<ItemStack>,
-                data["content"] as String,
+                data["itemStacks"] as List<ItemStack>,
+                data["textContent"] as String,
             )
         }
     }
