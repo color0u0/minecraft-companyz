@@ -53,7 +53,7 @@ class PartTimeWorkRepository {
 
         val partTimeJob = partTimeJobs[index] ?: return
 
-        if (partTimeJob.state == WorkState.PENDING) {
+        if (partTimeJob.state != WorkState.PENDING) {
             player.sendErrorMessage("채용공고가 마감된 아르바이트 입니다.")
             return
         }
