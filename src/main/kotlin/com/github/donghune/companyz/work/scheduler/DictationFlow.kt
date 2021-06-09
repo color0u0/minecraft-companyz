@@ -3,6 +3,7 @@ package com.github.donghune.companyz.work.scheduler
 import com.github.donghune.companyz.plugin
 import com.github.donghune.companyz.work.extension.complete
 import com.github.donghune.companyz.work.extension.partTimeJob
+import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import io.papermc.paper.event.player.AsyncChatEvent
 import kotlinx.coroutines.delay
 import net.kyori.adventure.text.Component
@@ -20,10 +21,11 @@ class DictationFlow(val player: Player, content: String) : Listener {
     private var dictationStatus = DictationStatus.PENDING
 
     suspend fun launch() {
-        player.sendActionBar(Component.text("화면에 나타나는 단어를 채팅창에 입력해 주세요."))
+        player.closeInventory()
+        player.sendActionBar(Component.text("&l&c화면에 나타나는 단어를 채팅창에 입력해 주세요.".replaceChatColorCode()))
 
-        player.sendTitle("", "지금부터 기자회견을 시작하겠습니다.", 0, 40, 0)
-        delay(2000L)
+        player.sendTitle("", "&l&c지금부터 기자회견을 시작하겠습니다.".replaceChatColorCode(), 0, 60, 0)
+        delay(3000L)
 
         player.sendTitle("", "3", 0, 20, 0)
         delay(1000L)
@@ -60,6 +62,8 @@ class DictationFlow(val player: Player, content: String) : Listener {
         if (event.player.uniqueId != player.uniqueId) {
             return
         }
+
+        event.isCancelled = true
 
         if (isAlreadyEnter) {
             return
