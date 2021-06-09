@@ -68,7 +68,7 @@ class DictationFlow(val player: Player, content: String) : Listener {
         isAlreadyEnter = true
         val message = event.message()
 
-        if (message.toString() == currentWord) {
+        if (message == Component.text(currentWord)) {
             correctAnswers++
             dictationStatus = DictationStatus.SUCCESS
             return
