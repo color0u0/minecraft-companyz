@@ -43,7 +43,7 @@ class DictationFlow(val player: Player, content: String) : Listener {
             repeat(WORD_DELAY * 10) {
                 player.sendTitle(
                     "${dictationStatus.chatColor}$word",
-                    "${(WORD_DELAY * 10) / 10.0}s",
+                    "%.1fs".format((WORD_DELAY - (it / 10.0))),
                     0, WORD_DELAY * 20,
                     0
                 )
