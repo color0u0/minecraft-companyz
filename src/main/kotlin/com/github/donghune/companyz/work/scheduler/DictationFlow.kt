@@ -39,6 +39,7 @@ class DictationFlow(val player: Player, content: String) : Listener {
         words.forEach { word ->
             isAlreadyEnter = false
             currentWord = word
+            dictationStatus = DictationStatus.PENDING
             repeat(WORD_DELAY * 10) {
                 player.sendTitle(
                     "${dictationStatus.chatColor}$word",
