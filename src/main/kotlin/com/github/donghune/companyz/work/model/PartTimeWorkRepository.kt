@@ -1,5 +1,6 @@
 package com.github.donghune.companyz.work.model
 
+import com.github.donghune.companyz.money.extension.money
 import com.github.donghune.companyz.plugin
 import com.github.donghune.companyz.work.event.AcceptPartTimeJobEvent
 import com.github.donghune.companyz.work.event.CompletePartTimeJobEvent
@@ -69,7 +70,7 @@ class PartTimeWorkRepository {
         return
     }
 
-    fun complete(player: Player, index: Int) {
+    fun complete(player: Player, index: Int, achievementRate: Double) {
         if (player.partTimeJob == null) {
             player.sendErrorMessage("수행중인 아르바이트가 존재하지 않습니다.")
             return
@@ -78,10 +79,13 @@ class PartTimeWorkRepository {
         val partTimeJob = partTimeJobs[index] ?: return
         partTimeJob.acceptedPlayer = player
         partTimeJob.state = WorkState.COMPLETE
+
+        player.money += (partTimeJob.work.reward.money * achievementRate).toInt()
+
         player.sendInfoMessage("아르바이트를 완료하였습니다.")
         player.sendInfoMessage("보상이 지급됩니다.")
-        player.sendInfoMessage("보수금 : ${partTimeJob.work.reward.money.toMoneyFormat()}")
-        player.sendInfoMessage("명성치 : ${partTimeJob.work.reward.money.toMoneyFormat()}")
+        player.sendInfoMessage("보수금 : ${(partTimeJob.work.reward.money * achievementRate).toInt().toMoneyFormat()}")
+        player.sendInfoMessage("명성치 : ${(partTimeJob.work.reward.money * achievementRate).toInt().toMoneyFormat()}")
         Bukkit.getPluginManager().callEvent(CompletePartTimeJobEvent(player))
 
         Bukkit.getScheduler().runTaskLater(plugin, Runnable {

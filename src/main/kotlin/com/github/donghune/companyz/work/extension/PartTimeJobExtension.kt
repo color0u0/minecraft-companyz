@@ -10,6 +10,6 @@ private val partTimeWorkRepository by inject<PartTimeWorkRepository>(PartTimeWor
 val Player.partTimeJob
     get() = partTimeWorkRepository.getPartTimeJobInProgress(this)
 
-fun PartTimeJob.complete(player: Player) {
-    partTimeWorkRepository.complete(player, index)
+fun PartTimeJob.complete(player: Player, achievementRate: Double) {
+    partTimeWorkRepository.complete(player, index, achievementRate)
 }
