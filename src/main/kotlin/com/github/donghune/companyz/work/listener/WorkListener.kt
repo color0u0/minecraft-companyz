@@ -37,7 +37,7 @@ class WorkListener : Listener {
     }
 
     @EventHandler
-    fun onAcceptPartTimeJobEvent(event: AcceptPartTimeJobEvent) {
+    suspend fun onAcceptPartTimeJobEvent(event: AcceptPartTimeJobEvent) {
         val player = event.player
         val partTimeJob = player.partTimeJob ?: return
         val work = partTimeJob.work
@@ -46,7 +46,7 @@ class WorkListener : Listener {
             return
         }
 
-        DictationFlow(player, work.mission.textContent)
+        DictationFlow(player, work.mission.textContent).launch()
     }
 
 }

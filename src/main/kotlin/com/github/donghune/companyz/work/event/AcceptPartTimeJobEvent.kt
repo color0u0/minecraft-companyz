@@ -1,29 +1,16 @@
-package com.github.donghune.companyz.work.event;
+package com.github.donghune.companyz.work.event
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.entity.Player
+import org.bukkit.event.Event
+import org.bukkit.event.HandlerList
 
-public final class AcceptPartTimeJobEvent extends Event {
-
-    private static final HandlerList handlers = new HandlerList();
-    private final Player player;
-
-    public AcceptPartTimeJobEvent(Player player) {
-        this.player = player;
+class AcceptPartTimeJobEvent(val player: Player) : Event() {
+    override fun getHandlers(): HandlerList {
+        return handlerList
     }
 
-    public Player getPlayer() {
-        return player;
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
     }
-
-    public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
 }
