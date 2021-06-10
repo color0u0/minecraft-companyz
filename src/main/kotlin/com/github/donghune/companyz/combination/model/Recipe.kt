@@ -11,11 +11,11 @@ import org.bukkit.inventory.ItemStack
 @SerializableAs("Recipe")
 data class Recipe(
     val id: String,
-    val display: String,
-    val description: List<String>,
-    val materials: List<ItemStack>,
-    val resultItem: ItemStack,
-    val recipeShopInfo: RecipeShopInfo
+    var display: String,
+    var description: List<String>,
+    var materials: List<ItemStack>,
+    var resultItem: ItemStack,
+    var recipeShopInfo: RecipeShopInfo
 ) : ConfigurationSerializable {
 
     fun toItemStack(): ItemStack {

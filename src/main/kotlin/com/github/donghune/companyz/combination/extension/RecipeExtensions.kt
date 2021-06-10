@@ -2,6 +2,7 @@ package com.github.donghune.companyz.combination.extension
 
 import com.github.donghune.companyz.combination.model.PlayerRecipeRepository
 import com.github.donghune.companyz.combination.model.Recipe
+import com.github.donghune.companyz.combination.model.RecipeRepository
 import com.github.donghune.companyz.util.extension.isContentFull
 import com.github.donghune.namulibrary.extension.hasItems
 import com.github.donghune.namulibrary.extension.sendErrorMessage
@@ -12,6 +13,11 @@ import org.koin.java.KoinJavaComponent
 import java.util.*
 
 private val playerRecipeRepository by KoinJavaComponent.inject<PlayerRecipeRepository>(PlayerRecipeRepository::class.java)
+private val recipeRepository by KoinJavaComponent.inject<RecipeRepository>(RecipeRepository::class.java)
+
+fun Recipe.save() {
+    recipeRepository.save(id)
+}
 
 fun Recipe.hasPlayers(): List<UUID> {
     return playerRecipeRepository.getList().filter { it.recipes.contains(id) }.map { it.uuid }

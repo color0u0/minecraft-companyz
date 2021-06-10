@@ -5,8 +5,8 @@ import org.bukkit.configuration.serialization.SerializableAs
 
 @SerializableAs("RecipeShopInfo")
 class RecipeShopInfo(
-    val isUnlimitedSales: Boolean,
-    val price: Int
+    var isUnlimitedSales: Boolean,
+    var price: Int
 ) : ConfigurationSerializable {
     override fun serialize(): Map<String, Any> {
         return mapOf(
