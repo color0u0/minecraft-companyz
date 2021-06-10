@@ -56,7 +56,6 @@ class ShopInventory(val shop: Shop) : GUI(plugin, 54, "상점") {
 
             val player = it.whoClicked as Player
 
-            println("if ($page == ${stuffPageList.lastPageIndex}) {")
             if (page == stuffPageList.lastPageIndex) {
                 player.sendErrorMessage("마지막 페이지 입니다.")
                 return@setItem
