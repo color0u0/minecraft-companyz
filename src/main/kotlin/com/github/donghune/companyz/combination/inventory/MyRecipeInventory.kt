@@ -1,7 +1,7 @@
 package com.github.donghune.companyz.combination.inventory
 
-import com.github.donghune.companyz.combination.extension.manufacturingUsingRecipe
-import com.github.donghune.companyz.combination.extension.recipes
+import com.github.donghune.companyz.combination.extension.manufacturing
+import com.github.donghune.companyz.combination.extension.recipe
 import com.github.donghune.companyz.combination.model.RecipeRepository
 import com.github.donghune.companyz.plugin
 import com.github.donghune.namulibrary.inventory.GUI
@@ -25,12 +25,12 @@ class MyRecipeInventory(val player: Player) : GUI(plugin, 54, "내 레시피 창
     }
 
     override suspend fun setContent() {
-        player.recipes
+        player.recipe.recipes
             .mapNotNull { recipeRepository.get(it) }
             .forEachIndexed { index, recipe ->
                 setItem(index, recipe.toItemStack()) {
                     it.isCancelled = true
-                    player.manufacturingUsingRecipe(recipe)
+                    recipe.manufacturing(player)
                 }
             }
     }

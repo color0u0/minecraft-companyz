@@ -7,7 +7,7 @@ import java.util.*
 @SerializableAs("PlayerRecipe")
 data class PlayerRecipe(
     val uuid: UUID,
-    val recipes: List<String>
+    val recipes: MutableList<String>
 ) : ConfigurationSerializable {
     override fun serialize(): Map<String, Any> {
         return mapOf(
@@ -21,7 +21,7 @@ data class PlayerRecipe(
         fun deserialize(data: Map<String, Any>): PlayerRecipe {
             return PlayerRecipe(
                 UUID.fromString(data["uuid"] as String),
-                data["recipes"] as List<String>
+                data["recipes"] as MutableList<String>
             )
         }
     }
