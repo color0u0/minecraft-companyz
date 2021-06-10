@@ -3,19 +3,21 @@ package com.github.donghune.companyz.combination.extension
 import com.github.donghune.companyz.combination.model.PlayerRecipe
 import com.github.donghune.companyz.combination.model.PlayerRecipeRepository
 import com.github.donghune.companyz.combination.model.Recipe
+import com.github.donghune.companyz.combination.model.RecipeRepository
 import com.github.donghune.namulibrary.extension.sendErrorMessage
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import org.bukkit.entity.Player
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
-private val playerRecipeRepository by KoinJavaComponent.inject<PlayerRecipeRepository>(PlayerRecipeRepository::class.java)
+private val recipeRepository by inject<RecipeRepository>(RecipeRepository::class.java)
+private val playerRecipeRepository by inject<PlayerRecipeRepository>(PlayerRecipeRepository::class.java)
 
 val Player.recipe: PlayerRecipe
     get() = playerRecipeRepository.getSafety(uniqueId.toString())
 
 fun Player.buyRecipeBook(recipe: Recipe) {
 
-    if (recipe.recipeShopInfo.isUnlimitedSales) {
+    if (recipeRepository.getAvailableForSale().find { it.id == recipe.id } == null) {
         sendErrorMessage("이미 누군가가 구매한 레시피 입니다.")
         return
     }
