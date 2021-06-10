@@ -1,12 +1,12 @@
 package com.github.donghune.companyz.combination.model
 
 import com.github.donghune.namulibrary.extension.ItemBuilder
-import com.github.donghune.namulibrary.nms.addNBTTagCompound
+import com.github.donghune.namulibrary.extension.toMoneyFormat
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
 import org.bukkit.inventory.ItemStack
-import java.io.Serializable
 
 @SerializableAs("Recipe")
 data class Recipe(
@@ -14,7 +14,8 @@ data class Recipe(
     val display: String,
     val description: List<String>,
     val materials: List<ItemStack>,
-    val resultItem: ItemStack
+    val resultItem: ItemStack,
+    val recipeShopInfo: RecipeShopInfo
 ) : ConfigurationSerializable {
 
     fun toItemStack(): ItemStack {
@@ -32,8 +33,13 @@ data class Recipe(
             .build()
     }
 
-    fun toRecipeBook(): ItemStack {
-        return toItemStack().addNBTTagCompound(this)
+    fun toSellRecipeItemStack(): ItemStack {
+        return toItemStack().apply {
+            (lore() ?: mutableListOf()).apply {
+                add(Component.text("수량제한 : ${if (recipeShopInfo.isUnlimitedSales) "무제한" else "한정"}"))
+                add(Component.text("구매가격 : ${recipeShopInfo.price.toMoneyFormat()}"))
+            }.also { lore(it) }
+        }
     }
 
     private fun toMaterialLore(): List<String> {
@@ -54,6 +60,7 @@ data class Recipe(
             "description" to description,
             "materials" to materials,
             "resultItem" to resultItem,
+            "recipeShopInfo" to recipeShopInfo,
         )
     }
 
@@ -66,6 +73,7 @@ data class Recipe(
                 data["description"] as List<String>,
                 data["materials"] as List<ItemStack>,
                 data["resultItem"] as ItemStack,
+                data["recipeShopInfo"] as RecipeShopInfo,
             )
         }
     }
