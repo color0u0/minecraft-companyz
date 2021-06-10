@@ -1,5 +1,6 @@
 package com.github.donghune.companyz.combination.model
 
+import com.github.donghune.companyz.util.extension.toCloneTypeArray
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import net.kyori.adventure.text.Component
@@ -34,8 +35,9 @@ data class Recipe(
     }
 
     fun toSellRecipeItemStack(): ItemStack {
-        return toItemStack().apply {
+        return toItemStack().clone().apply {
             (lore() ?: mutableListOf()).apply {
+                add(Component.text(""))
                 add(Component.text("수량제한 : ${if (recipeShopInfo.isUnlimitedSales) "무제한" else "한정"}"))
                 add(Component.text("구매가격 : ${recipeShopInfo.price.toMoneyFormat()}"))
             }.also { lore(it) }
@@ -43,13 +45,13 @@ data class Recipe(
     }
 
     private fun toMaterialLore(): List<String> {
-        val itemMap = mutableMapOf<Pair<String, Material>, Int>()
-        materials.forEach { itemStack: ItemStack ->
-            val key = itemStack.displayName().toString() to itemStack.type
+        val itemMap = mutableMapOf<String, Int>()
+        materials.toCloneTypeArray().forEach { itemStack: ItemStack ->
+            val key = itemStack.i18NDisplayName ?: itemStack.type.toString()
             itemMap[key] = (itemMap[key] ?: 0) + itemStack.amount
         }
         return itemMap
-            .map { (if (it.key.first.isEmpty()) it.key.second.toString() else it.key.first) to it.value }
+            .map { (it.key.ifEmpty { it.key }) to it.value }
             .map { pair: Pair<String, Int> -> "${pair.first}x${pair.second}" }
     }
 
