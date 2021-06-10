@@ -1,5 +1,6 @@
 package com.github.donghune.companyz
 
+import com.github.donghune.companyz.combination.CombinationFeature
 import com.github.donghune.companyz.money.MoneyFeature
 import com.github.donghune.companyz.shop.ShopFeature
 import com.github.donghune.companyz.stock.StockFeature
@@ -21,7 +22,8 @@ class Companyz : SuspendingJavaPlugin() {
         StockFeature(),
         TransportationFeature(),
         ShopFeature(),
-        WorkFeature()
+        WorkFeature(),
+        CombinationFeature()
     )
 
     override suspend fun onEnableAsync() {
