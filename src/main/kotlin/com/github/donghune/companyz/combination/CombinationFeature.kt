@@ -2,12 +2,7 @@ package com.github.donghune.companyz.combination
 
 import com.github.donghune.companyz.combination.command.CombinationCommand
 import com.github.donghune.companyz.combination.listener.CombinationListener
-import com.github.donghune.companyz.combination.model.PlayerRecipe
-import com.github.donghune.companyz.combination.model.PlayerRecipeRepository
-import com.github.donghune.companyz.combination.model.Recipe
-import com.github.donghune.companyz.combination.model.RecipeRepository
-import com.github.donghune.companyz.money.model.PlayerMoney
-import com.github.donghune.companyz.money.model.PlayerMoneyRepository
+import com.github.donghune.companyz.combination.model.*
 import com.github.donghune.companyz.plugin
 import com.github.donghune.companyz.util.struct.Command
 import com.github.donghune.companyz.util.struct.Feature
@@ -43,6 +38,7 @@ class CombinationFeature : Feature() {
 
     override val serializableClazzs: List<Class<out ConfigurationSerializable>> = listOf(
         Recipe::class.java,
-        PlayerRecipe::class.java
+        RecipeShopInfo::class.java,
+        PlayerRecipe::class.java,
     )
 }
