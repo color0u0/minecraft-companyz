@@ -14,6 +14,12 @@ val Player.recipe: PlayerRecipe
     get() = playerRecipeRepository.getSafety(uniqueId.toString())
 
 fun Player.buyRecipeBook(recipe: Recipe) {
+
+    if (recipe.recipeShopInfo.isUnlimitedSales) {
+        sendErrorMessage("이미 누군가가 구매한 레시피 입니다.")
+        return
+    }
+
     if (this.recipe.recipes.contains(recipe.id)) {
         sendErrorMessage("이미 보유하고 있는 레시피 입니다.")
         return
