@@ -19,7 +19,8 @@ import org.koin.java.KoinJavaComponent.inject
 class RecipeShopInventory : GUI(plugin, 54, "특허청") {
 
     private val recipeRepository by inject<RecipeRepository>(RecipeRepository::class.java)
-    private val recipePageList = PagingList(45, recipeRepository.getAvailableForSale())
+    private val recipePageList
+        get() = PagingList(45, recipeRepository.getAvailableForSale())
     private var page: Int = 0
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
