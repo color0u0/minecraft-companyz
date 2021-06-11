@@ -5,6 +5,7 @@ import com.github.donghune.companyz.money.MoneyFeature
 import com.github.donghune.companyz.shop.ShopFeature
 import com.github.donghune.companyz.stock.StockFeature
 import com.github.donghune.companyz.transportation.TransportationFeature
+import com.github.donghune.companyz.util.command.ItemCommand
 import com.github.donghune.companyz.util.extension.invoke
 import com.github.donghune.companyz.work.WorkFeature
 import com.github.monun.kommand.kommand
@@ -31,6 +32,7 @@ class Companyz : SuspendingJavaPlugin() {
 
         startKoin {
             kommand {
+                ItemCommand().command.invoke(this)
                 features.forEach {
                     it.commands.forEach { command -> command.invoke(this@kommand) }
                     it.listeners.forEach { listener -> listener.invoke(this@Companyz) }

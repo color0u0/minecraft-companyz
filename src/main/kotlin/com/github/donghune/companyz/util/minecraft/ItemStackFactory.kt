@@ -1,15 +1,11 @@
 package com.github.donghune.companyz.util.minecraft
 
-import com.destroystokyo.paper.Namespaced
-import com.google.common.collect.Multimap
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
-import org.bukkit.attribute.Attribute
-import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.*
 
 
 class ItemStackFactory(
@@ -19,7 +15,7 @@ class ItemStackFactory(
     private val itemStack = itemStack.clone()
     private val itemMeta = itemStack.itemMeta
 
-    fun setNameDisplayName(displayName: String): ItemStackFactory {
+    fun setDisplayName(displayName: String): ItemStackFactory {
         itemMeta.displayName(Component.text(displayName))
         return this
     }
@@ -53,7 +49,7 @@ class ItemStackFactory(
         return this
     }
 
-    fun editLore(value: String, index: Int): ItemStackFactory {
+    fun editLore(index: Int, value: String): ItemStackFactory {
         itemStack.itemMeta.lore()
             .apply { (itemMeta.lore() ?: mutableListOf())[index] = Component.text(value) }
             .also { itemMeta.lore(it) }
@@ -105,40 +101,91 @@ class ItemStackFactory(
         return this
     }
 
-    fun addAttributeModifier(attribute: Attribute, modifier: AttributeModifier): ItemStackFactory {
-        itemMeta.addAttributeModifier(attribute, modifier)
+    fun toBannerMeta(block : (BannerMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as BannerMeta).apply(block)
         return this
     }
 
-    fun setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>): ItemStackFactory {
-        itemMeta.attributeModifiers = attributeModifiers
+    fun toBlockDataMeta(block : (BlockDataMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as BlockDataMeta).apply(block)
         return this
     }
 
-    fun removeAttributeModifier(attribute: Attribute): ItemStackFactory {
-        itemMeta.removeAttributeModifier(attribute)
+    fun toBlockStateMeta(block : (BlockStateMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as BlockStateMeta).apply(block)
         return this
     }
 
-    fun removeAttributeModifier(slot: EquipmentSlot): ItemStackFactory {
-        itemMeta.removeAttributeModifier(slot)
+    fun toBookMeta(block : (BookMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as BookMeta).apply(block)
         return this
     }
 
-    fun removeAttributeModifier(attribute: Attribute, modifier: AttributeModifier): ItemStackFactory {
-        itemMeta.removeAttributeModifier(attribute, modifier)
+    fun toCompassMeta(block : (CompassMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as CompassMeta).apply(block)
         return this
     }
 
-    fun setDestroyableKeys(canDestroy: Collection<Namespaced>): ItemStackFactory {
-        itemMeta.setDestroyableKeys(canDestroy)
+    fun toCrossbowMeta(block : (CrossbowMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as CrossbowMeta).apply(block)
         return this
     }
 
-    fun setPlaceableKeys(canPlaceOn: Collection<Namespaced>): ItemStackFactory {
-        itemMeta.setPlaceableKeys(canPlaceOn)
+    fun toEnchantmentStorageMeta(block : (EnchantmentStorageMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as EnchantmentStorageMeta).apply(block)
         return this
     }
+
+    fun toFireworkEffectMeta(block : (FireworkEffectMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as FireworkEffectMeta).apply(block)
+        return this
+    }
+
+    fun toFireworkMeta(block : (FireworkMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as FireworkMeta).apply(block)
+        return this
+    }
+
+    fun toKnowledgeBookMeta(block : (KnowledgeBookMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as KnowledgeBookMeta).apply(block)
+        return this
+    }
+
+    fun toLeatherArmorMeta(block : (LeatherArmorMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as LeatherArmorMeta).apply(block)
+        return this
+    }
+
+    fun toMapMeta(block : (MapMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as MapMeta).apply(block)
+        return this
+    }
+
+    fun toPotionMeta(block : (PotionMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as PotionMeta).apply(block)
+        return this
+    }
+
+    fun toSkullMeta(block : (SkullMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as SkullMeta).apply(block)
+        return this
+    }
+
+    fun toSpawnEggMeta(block : (SpawnEggMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as SpawnEggMeta).apply(block)
+        return this
+    }
+
+    fun toSuspiciousStewMeta(block : (SuspiciousStewMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as SuspiciousStewMeta).apply(block)
+        return this
+    }
+
+    fun toTropicalFishBucketMeta(block : (TropicalFishBucketMeta) -> Unit) : ItemStackFactory {
+        (itemMeta as TropicalFishBucketMeta).apply(block)
+        return this
+    }
+
 
     fun build(): ItemStack {
         return itemStack.apply { itemMeta = this.itemMeta }
