@@ -1,9 +1,8 @@
 package com.github.donghune.companyz.combination.model
 
 import com.github.donghune.companyz.util.extension.toCloneTypeArray
-import com.github.donghune.namulibrary.extension.ItemBuilder
+import com.github.donghune.companyz.util.minecraft.edit
 import com.github.donghune.namulibrary.extension.toMoneyFormat
-import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
@@ -16,31 +15,25 @@ data class Recipe(
     var description: List<String>,
     var materials: List<ItemStack>,
     var resultItem: ItemStack,
-    var recipeShopInfo: RecipeShopInfo
+    var recipeShopInfo: RecipeShopInfo,
 ) : ConfigurationSerializable {
 
     fun toItemStack(): ItemStack {
-        return ItemBuilder()
-            .setMaterial(Material.PAPER)
-            .setDisplay(display)
-            .setLore(
-                listOf(
-                    "",
-                    *description.toTypedArray(),
-                    "",
-                    *toMaterialLore().toTypedArray()
-                )
-            )
-            .build()
+        return ItemStack(Material.AIR).edit {
+            setType(Material.PAPER)
+            setDisplayName(display)
+            addLore("")
+            addLore(*description.toTypedArray())
+            addLore("")
+            addLore(*toMaterialLore().toTypedArray())
+        }
     }
 
     fun toSellRecipeItemStack(): ItemStack {
-        return toItemStack().clone().apply {
-            (lore() ?: mutableListOf()).apply {
-                add(Component.text(""))
-                add(Component.text("수량제한 : ${if (recipeShopInfo.isUnlimitedSales) "무제한" else "한정"}"))
-                add(Component.text("구매가격 : ${recipeShopInfo.price.toMoneyFormat()}"))
-            }.also { lore(it) }
+        return toItemStack().clone().edit {
+            addLore("")
+            addLore("수량제한 : ${if (recipeShopInfo.isUnlimitedSales) "무제한" else "한정"}")
+            addLore("구매가격 : ${recipeShopInfo.price.toMoneyFormat()}")
         }
     }
 
