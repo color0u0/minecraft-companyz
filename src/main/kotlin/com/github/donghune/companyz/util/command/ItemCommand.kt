@@ -1,11 +1,11 @@
 package com.github.donghune.companyz.util.command
 
-import com.github.donghune.companyz.util.minecraft.ItemStackFactory
+import com.github.donghune.companyz.util.minecraft.edit
 import com.github.donghune.companyz.util.struct.Command
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import com.github.monun.kommand.KommandDispatcherBuilder
 import com.github.monun.kommand.argument.*
-import org.bukkit.Bukkit
+import org.bukkit.Color
 import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -14,7 +14,6 @@ import org.bukkit.entity.TropicalFish
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.bukkit.scheduler.BukkitTask
 
 class ItemCommand : Command() {
     override val command: KommandDispatcherBuilder.() -> Unit
@@ -26,8 +25,10 @@ class ItemCommand : Command() {
                             val player = it.sender as Player
                             val value = it.parseArgument<String>("value")
 
-                            val itemStack = player.inventory.itemInMainHand
-                            ItemStackFactory(itemStack).setDisplayName(value)
+                            player.inventory.itemInMainHand.edit {
+                                setDisplayName(value)
+                            }
+
                             player.sendInfoMessage("아이템의 이름을 ${value}로 변경하였습니다.")
                         }
                     }
@@ -38,8 +39,10 @@ class ItemCommand : Command() {
                             val player = it.sender as Player
                             val value = it.parseArgument<Material>("value")
 
-                            val itemStack = player.inventory.itemInMainHand
-                            ItemStackFactory(itemStack).setType(value)
+                            player.inventory.itemInMainHand.edit {
+                                setType(value)
+                            }
+
                             player.sendInfoMessage("아이템의 타입을 ${value}로 변경하였습니다.")
                         }
                     }
@@ -51,9 +54,11 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<Int>("value")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).setAmount(value)
-                                player.sendInfoMessage("아이템의 수량을 ${itemStack.amount}로 변경하였습니다.")
+                                player.inventory.itemInMainHand.edit {
+                                    setAmount(value)
+                                }
+
+                                player.sendInfoMessage("아이템의 수량을 ${player.inventory.itemInMainHand.amount}로 변경하였습니다.")
                             }
                         }
                     }
@@ -63,9 +68,11 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<Int>("value")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).addAmount(value)
-                                player.sendInfoMessage("아이템의 수량을 ${itemStack.amount}로 변경하였습니다.")
+                                player.inventory.itemInMainHand.edit {
+                                    addAmount(value)
+                                }
+
+                                player.sendInfoMessage("아이템의 수량을 ${player.inventory.itemInMainHand.amount}로 변경하였습니다.")
                             }
                         }
                     }
@@ -77,8 +84,10 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<String>("value")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).addLore(value)
+                                player.inventory.itemInMainHand.edit {
+                                    addLore(value)
+                                }
+
                                 player.sendInfoMessage("아이템의 로어에 ${value}를 추가하였습니다.")
                             }
                         }
@@ -89,8 +98,10 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val index = it.parseArgument<Int>("index")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).removeLore(index)
+                                player.inventory.itemInMainHand.edit {
+                                    removeLore(index)
+                                }
+
                                 player.sendInfoMessage("아이템의 ${index}반째 로어를 삭제하였습니다.")
                             }
                         }
@@ -103,8 +114,10 @@ class ItemCommand : Command() {
                                     val index = it.parseArgument<Int>("index")
                                     val value = it.parseArgument<String>("value")
 
-                                    val itemStack = player.inventory.itemInMainHand
-                                    ItemStackFactory(itemStack).editLore(index, value)
+                                    player.inventory.itemInMainHand.edit {
+                                        editLore(index, value)
+                                    }
+
                                     player.sendInfoMessage("아이템의 ${index}번째 로어를 ${value}로 변경하였습니다.")
                                 }
                             }
@@ -120,11 +133,13 @@ class ItemCommand : Command() {
                                     val value = it.parseArgument<String>("value")
                                     val level = it.parseArgument<Int>("level")
 
-                                    val itemStack = player.inventory.itemInMainHand
-                                    ItemStackFactory(itemStack).addUnsafeEnchantment(
-                                        Enchantment.getByName(value)!!,
-                                        level
-                                    )
+                                    player.inventory.itemInMainHand.edit {
+                                        addUnsafeEnchantment(
+                                            Enchantment.values().find { it.key.key == value }!!,
+                                            level
+                                        )
+                                    }
+
                                     player.sendInfoMessage("아이템에 Lv.$level $value 인첸트를 추가하였습니다.")
                                 }
                             }
@@ -136,8 +151,12 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<String>("value")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).removeEnchantment(Enchantment.getByName(value)!!)
+                                player.inventory.itemInMainHand.edit {
+                                    removeEnchantment(
+                                        Enchantment.getByName(value)!!
+                                    )
+                                }
+
                                 player.sendInfoMessage("아이템의 $value 인첸트를 삭제하였습니다.")
                             }
                         }
@@ -150,8 +169,10 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<ItemFlag>("value")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).addItemFlags(value)
+                                player.inventory.itemInMainHand.edit {
+                                    addItemFlags(value)
+                                }
+
                                 player.sendInfoMessage("아이템에 $value Flag 를 추가하였습니다.")
                             }
                         }
@@ -162,8 +183,10 @@ class ItemCommand : Command() {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<ItemFlag>("value")
 
-                                val itemStack = player.inventory.itemInMainHand
-                                ItemStackFactory(itemStack).removeItemFlags(value)
+                                player.inventory.itemInMainHand.edit {
+                                    removeItemFlags(value)
+                                }
+
                                 player.sendInfoMessage("아이템의 $value Flag 를 삭제하였습니다.")
                             }
                         }
@@ -175,8 +198,10 @@ class ItemCommand : Command() {
                             val player = it.sender as Player
                             val value = it.parseArgument<Boolean>("value")
 
-                            val itemStack = player.inventory.itemInMainHand
-                            ItemStackFactory(itemStack).setUnbreakable(value)
+                            player.inventory.itemInMainHand.edit {
+                                setUnbreakable(value)
+                            }
+
                             player.sendInfoMessage("아이템의 부서짐을 ${if (value) "활성화" else "비활성화"} 하였습니다.")
                         }
                     }
@@ -187,172 +212,62 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toBannerMeta { meta ->
-
+                                player.inventory.itemInMainHand.edit {
+                                    BannerMeta {
+                                    }
                                 }
+
                                 player.sendInfoMessage("BannerMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("BlockDataMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toBlockDataMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("BlockDataMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("BlockStateMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toBlockStateMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("BlockStateMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("BookMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toBookMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("BookMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("CompassMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toCompassMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("CompassMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("CrossbowMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toCrossbowMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("CrossbowMeta 의 it 을 수정하였습니다.")
                             }
                         }
                     }
                 }
                 then("EnchantmentStorageMeta") {
                     then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
+                        then("value" to string(Enchantment.values().map { it.key.key })) {
+                            then("level" to integer()) {
+                                executes {
+                                    val player = it.sender as Player
+                                    val value = it.parseArgument<String>("value")
+                                    val level = it.parseArgument<Int>("level")
 
-                                ItemStackFactory(itemStack).toEnchantmentStorageMeta { meta ->
+                                    player.inventory.itemInMainHand.edit {
+                                        EnchantmentStorageMeta {
+                                            addStoredEnchant(
+                                                Enchantment.getByName(value)!!,
+                                                level,
+                                                false
+                                            )
+                                        }
+                                    }
 
+                                    player.sendInfoMessage("아이템에 Lv.$level $value 인첸트를 추가하였습니다.")
                                 }
-                                player.sendInfoMessage("EnchantmentStorageMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("FireworkEffectMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toFireworkEffectMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("FireworkEffectMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("FireworkMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toFireworkMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("FireworkMeta 의 it 을 수정하였습니다.")
-                            }
-                        }
-                    }
-                }
-                then("KnowledgeBookMeta") {
-                    then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
-
-                                ItemStackFactory(itemStack).toKnowledgeBookMeta { meta ->
-
-                                }
-                                player.sendInfoMessage("KnowledgeBookMeta 의 it 을 수정하였습니다.")
                             }
                         }
                     }
                 }
                 then("LeatherArmorMeta") {
                     then("set") {
-                        then("value" to string()) {
-                            executes {
-                                val player = it.sender as Player
-                                val value = it.parseArgument<String>("value")
-                                val itemStack = player.inventory.itemInMainHand
+                        then("red" to integer()) {
+                            then("blue" to integer()) {
+                                then("green" to integer()) {
+                                    executes {
+                                        val player = it.sender as Player
+                                        val red = it.parseArgument<Int>("red")
+                                        val blue = it.parseArgument<Int>("blue")
+                                        val green = it.parseArgument<Int>("green")
 
-                                ItemStackFactory(itemStack).toLeatherArmorMeta { meta ->
+                                        player.inventory.itemInMainHand.edit {
+                                            LeatherArmorMeta {
+                                                setColor(Color.fromRGB(red, green, blue))
+                                            }
+                                        }
 
+                                        player.sendInfoMessage("LeatherArmorMeta 의 color 를 수정하였습니다.")
+                                    }
                                 }
-                                player.sendInfoMessage("LeatherArmorMeta 의 it 을 수정하였습니다.")
                             }
                         }
                     }
@@ -375,21 +290,23 @@ class ItemCommand : Command() {
                                                         val ambient = it.parseArgument<Boolean>("ambient")
                                                         val particles = it.parseArgument<Boolean>("particles")
                                                         val icon = it.parseArgument<Boolean>("icon")
-                                                        val itemStack = player.inventory.itemInMainHand
 
-                                                        ItemStackFactory(itemStack).toPotionMeta { meta ->
-                                                            meta.addCustomEffect(
-                                                                PotionEffect(
-                                                                    type,
-                                                                    duration,
-                                                                    amplifier,
-                                                                    ambient,
-                                                                    particles,
-                                                                    icon
-                                                                ),
-                                                                true
-                                                            )
+                                                        player.inventory.itemInMainHand.edit {
+                                                            PotionMeta {
+                                                                addCustomEffect(
+                                                                    PotionEffect(
+                                                                        type,
+                                                                        duration,
+                                                                        amplifier,
+                                                                        ambient,
+                                                                        particles,
+                                                                        icon
+                                                                    ),
+                                                                    true
+                                                                )
+                                                            }
                                                         }
+
                                                         player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 추가하였습니다.")
                                                     }
                                                 }
@@ -405,11 +322,13 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val type = PotionEffectType.getByName(it.parseArgument("type"))!!
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toSuspiciousStewMeta { meta ->
-                                    meta.removeCustomEffect(type)
+                                player.inventory.itemInMainHand.edit {
+                                    SuspiciousStewMeta {
+                                        removeCustomEffect(type)
+                                    }
                                 }
+
                                 player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 삭제하였습니다.")
                             }
                         }
@@ -421,11 +340,13 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<Player>("value")
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toSkullMeta { meta ->
-                                    meta.playerProfile = value.playerProfile
+                                player.inventory.itemInMainHand.edit {
+                                    SkullMeta {
+                                        playerProfile = value.playerProfile
+                                    }
                                 }
+
                                 player.sendInfoMessage("SkullMeta 의 playerProfile 을 수정하였습니다.")
                             }
                         }
@@ -449,21 +370,23 @@ class ItemCommand : Command() {
                                                         val ambient = it.parseArgument<Boolean>("ambient")
                                                         val particles = it.parseArgument<Boolean>("particles")
                                                         val icon = it.parseArgument<Boolean>("icon")
-                                                        val itemStack = player.inventory.itemInMainHand
 
-                                                        ItemStackFactory(itemStack).toSuspiciousStewMeta { meta ->
-                                                            meta.addCustomEffect(
-                                                                PotionEffect(
-                                                                    type,
-                                                                    duration,
-                                                                    amplifier,
-                                                                    ambient,
-                                                                    particles,
-                                                                    icon
-                                                                ),
-                                                                true
-                                                            )
+                                                        player.inventory.itemInMainHand.edit {
+                                                            SuspiciousStewMeta {
+                                                                addCustomEffect(
+                                                                    PotionEffect(
+                                                                        type,
+                                                                        duration,
+                                                                        amplifier,
+                                                                        ambient,
+                                                                        particles,
+                                                                        icon
+                                                                    ),
+                                                                    true
+                                                                )
+                                                            }
                                                         }
+
                                                         player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 추가하였습니다.")
                                                     }
                                                 }
@@ -479,11 +402,13 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val type = PotionEffectType.getByName(it.parseArgument("type"))!!
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toSuspiciousStewMeta { meta ->
-                                    meta.removeCustomEffect(type)
+                                player.inventory.itemInMainHand.edit {
+                                    SuspiciousStewMeta {
+                                        removeCustomEffect(type)
+                                    }
                                 }
+
                                 player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 삭제하였습니다.")
                             }
                         }
@@ -495,11 +420,13 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<DyeColor>("value")
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toTropicalFishBucketMeta { meta ->
-                                    meta.bodyColor = value
+                                player.inventory.itemInMainHand.edit {
+                                    TropicalFishBucketMeta {
+                                        bodyColor = value
+                                    }
                                 }
+
                                 player.sendInfoMessage("TropicalFishBucketMeta 의 bodyColor 을 수정하였습니다.")
                             }
                         }
@@ -509,11 +436,13 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<TropicalFish.Pattern>("value")
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toTropicalFishBucketMeta { meta ->
-                                    meta.pattern = value
+                                player.inventory.itemInMainHand.edit {
+                                    TropicalFishBucketMeta {
+                                        pattern = value
+                                    }
                                 }
+
                                 player.sendInfoMessage("TropicalFishBucketMeta 의 pattern 을 수정하였습니다.")
                             }
                         }
@@ -523,11 +452,13 @@ class ItemCommand : Command() {
                             executes {
                                 val player = it.sender as Player
                                 val value = it.parseArgument<DyeColor>("value")
-                                val itemStack = player.inventory.itemInMainHand
 
-                                ItemStackFactory(itemStack).toTropicalFishBucketMeta { meta ->
-                                    meta.patternColor = value
+                                player.inventory.itemInMainHand.edit {
+                                    TropicalFishBucketMeta {
+                                        patternColor = value
+                                    }
                                 }
+
                                 player.sendInfoMessage("TropicalFishBucketMeta 의 patternColor 을 수정하였습니다.")
                             }
                         }
@@ -535,4 +466,5 @@ class ItemCommand : Command() {
                 }
             }
         }
+
 }
