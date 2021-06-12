@@ -3,9 +3,9 @@ package com.github.donghune.companyz.combination.extension
 import com.github.donghune.companyz.combination.model.PlayerRecipeRepository
 import com.github.donghune.companyz.combination.model.Recipe
 import com.github.donghune.companyz.combination.model.RecipeRepository
+import com.github.donghune.companyz.util.extension.hasItems2
 import com.github.donghune.companyz.util.extension.isContentFull
 import com.github.donghune.companyz.util.extension.toCloneTypeArray
-import com.github.donghune.namulibrary.extension.hasItems
 import com.github.donghune.namulibrary.extension.sendErrorMessage
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import com.github.donghune.namulibrary.extension.takeItems
@@ -30,7 +30,7 @@ fun Recipe.manufacturing(player: Player) {
         return
     }
 
-    if (!player.inventory.hasItems(materials.toCloneTypeArray())) {
+    if (!player.inventory.hasItems2(materials.toCloneTypeArray())) {
         player.sendErrorMessage("아이템을 만들기 위한 재료가 부족합니다.")
         return
     }
