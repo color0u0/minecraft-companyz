@@ -1,7 +1,7 @@
 package com.github.donghune.companyz.combination.model
 
-import com.github.donghune.companyz.util.extension.toCloneTypeArray
-import com.github.donghune.companyz.util.minecraft.edit
+import com.github.donghune.namulibrary.extension.minecraft.edit
+import com.github.donghune.namulibrary.extension.toCloneTypeArray
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import org.bukkit.Material
 import org.bukkit.configuration.serialization.ConfigurationSerializable

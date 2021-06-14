@@ -1,7 +1,7 @@
 package com.github.donghune.companyz.util.command
 
-import com.github.donghune.companyz.util.minecraft.edit
 import com.github.donghune.companyz.util.struct.Command
+import com.github.donghune.namulibrary.extension.minecraft.edit
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import com.github.monun.kommand.KommandDispatcherBuilder
 import com.github.monun.kommand.argument.*
@@ -274,63 +274,59 @@ class ItemCommand : Command() {
                 }
                 then("PotionMeta") {
                     then("add") {
-                        then("type" to string(PotionEffectType.values().map { it.name })) {
-                            then("duration" to integer()) {
-                                then("amplifier" to integer()) {
-                                    then("ambient" to bool()) {
-                                        then("particles" to bool()) {
-                                            then("icon" to bool()) {
-                                                then("value" to string()) {
-                                                    executes {
-                                                        val player = it.sender as Player
-                                                        val type =
-                                                            PotionEffectType.getByName(it.parseArgument("type"))!!
-                                                        val duration = it.parseArgument<Int>("duration")
-                                                        val amplifier = it.parseArgument<Int>("amplifier")
-                                                        val ambient = it.parseArgument<Boolean>("ambient")
-                                                        val particles = it.parseArgument<Boolean>("particles")
-                                                        val icon = it.parseArgument<Boolean>("icon")
+                        then(
+                            "type" to string(PotionEffectType.values().map { it.name }),
+                            "duration" to integer(),
+                            "amplifier" to integer(),
+                            "ambient" to bool(),
+                            "particles" to bool(),
+                            "icon" to bool(),
+                            "value" to string()
+                        ) {
+                            executes {
+                                val player = it.sender as Player
+                                val type =
+                                    PotionEffectType.getByName(it.parseArgument("type"))!!
+                                val duration = it.parseArgument<Int>("duration")
+                                val amplifier = it.parseArgument<Int>("amplifier")
+                                val ambient = it.parseArgument<Boolean>("ambient")
+                                val particles = it.parseArgument<Boolean>("particles")
+                                val icon = it.parseArgument<Boolean>("icon")
 
-                                                        player.inventory.itemInMainHand.edit {
-                                                            PotionMeta {
-                                                                addCustomEffect(
-                                                                    PotionEffect(
-                                                                        type,
-                                                                        duration,
-                                                                        amplifier,
-                                                                        ambient,
-                                                                        particles,
-                                                                        icon
-                                                                    ),
-                                                                    true
-                                                                )
-                                                            }
-                                                        }
-
-                                                        player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 추가하였습니다.")
-                                                    }
-                                                }
-                                            }
-                                        }
+                                player.inventory.itemInMainHand.edit {
+                                    PotionMeta {
+                                        addCustomEffect(
+                                            PotionEffect(
+                                                type,
+                                                duration,
+                                                amplifier,
+                                                ambient,
+                                                particles,
+                                                icon
+                                            ),
+                                            true
+                                        )
                                     }
                                 }
+
+                                player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 추가하였습니다.")
                             }
                         }
                     }
-                    then("remove") {
-                        then("type" to string(PotionEffectType.values().map { it.name })) {
-                            executes {
-                                val player = it.sender as Player
-                                val type = PotionEffectType.getByName(it.parseArgument("type"))!!
+                }
+                then("remove") {
+                    then("type" to string(PotionEffectType.values().map { it.name })) {
+                        executes {
+                            val player = it.sender as Player
+                            val type = PotionEffectType.getByName(it.parseArgument("type"))!!
 
-                                player.inventory.itemInMainHand.edit {
-                                    SuspiciousStewMeta {
-                                        removeCustomEffect(type)
-                                    }
+                            player.inventory.itemInMainHand.edit {
+                                SuspiciousStewMeta {
+                                    removeCustomEffect(type)
                                 }
-
-                                player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 삭제하였습니다.")
                             }
+
+                            player.sendInfoMessage("SuspiciousStewMeta 의 customEffect 를 삭제하였습니다.")
                         }
                     }
                 }
@@ -466,5 +462,4 @@ class ItemCommand : Command() {
                 }
             }
         }
-
 }

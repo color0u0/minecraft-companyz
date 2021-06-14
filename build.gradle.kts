@@ -21,7 +21,7 @@ dependencies {
 
     implementation("com.github.monun:tap:3.6.0")
     implementation("com.github.monun:kommand:1.0.0")
-    implementation("com.github.donghune:minecraft-namulibrary:1.0.6")
+    implementation("com.github.donghune:minecraft-namulibrary:1.0.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
     implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0")

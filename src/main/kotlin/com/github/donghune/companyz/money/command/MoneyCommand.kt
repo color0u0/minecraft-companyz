@@ -3,18 +3,14 @@ package com.github.donghune.companyz.money.command
 import com.github.donghune.companyz.money.extension.money
 import com.github.donghune.companyz.money.model.CashItem
 import com.github.donghune.companyz.money.model.PlayerMoneyRepository
-import com.github.donghune.companyz.util.extension.isContentFull
 import com.github.donghune.companyz.util.struct.Command
+import com.github.donghune.namulibrary.extension.isContentFull
 import com.github.donghune.namulibrary.extension.sendErrorMessage
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.monun.kommand.KommandDispatcherBuilder
 import com.github.monun.kommand.argument.integer
 import com.github.monun.kommand.argument.player
-import net.md_5.bungee.api.chat.BaseComponent
-import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
 
