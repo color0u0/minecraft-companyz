@@ -91,11 +91,11 @@ tasks {
             // mkdir
             val folder = File("./.server")
 
-            if (folder.exists()) {
+            folder.mkdirs()
+
+            if (File(folder, "paper-1.16.5-777.jar").exists()) {
                 return@doLast
             }
-
-            folder.mkdirs()
 
             // w-get
             val download by registering(de.undercouch.gradle.tasks.download.Download::class) {
