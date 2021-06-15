@@ -1,6 +1,6 @@
 package com.github.donghune.companyz.work.model
 
-import com.github.donghune.companyz.util.minecraft.ItemStackFactory
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import org.bukkit.Material
 import org.bukkit.entity.Player
