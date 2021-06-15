@@ -78,7 +78,7 @@ tasks {
     }
 
     create<Copy>("copyToServer") {
-        val plugins = File("/Users/namu/MinecraftProjects/1.16.5/plugins")
+        val plugins = File("./.server/plugins")
         named("makePluginJar").run {
             from(this)
             into(plugins)
