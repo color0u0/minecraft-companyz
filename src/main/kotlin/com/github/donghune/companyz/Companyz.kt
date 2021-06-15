@@ -49,8 +49,4 @@ class Companyz : SuspendingJavaPlugin() {
 
     }
 
-    override suspend fun onDisableAsync() {
-        super.onDisableAsync()
-    }
-
 }
